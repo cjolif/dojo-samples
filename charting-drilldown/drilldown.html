@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>...</title>
+    <title>Dojo Charting Drill Down</title>
 	<link rel="stylesheet" href="../../../dojo_current/dijit/themes/claro/claro.css"></link>
-    <script type="text/javascript" src="../../../dojo_current/dojo/dojo.js"
-      data-dojo-config="async: true"></script>
+	  <script type="text/javascript" src="../../../dojo_current/dojo/dojo.js"
+			  data-dojo-config="async: true"></script>
 	<script>
 		var setStyle;
 		
@@ -22,8 +22,8 @@
 			/* JSON information */
 			var sales = [
 				{ month: "Jan",  revenues: 12435, profit: 53, America:40, Europe:35, Asia:25},
-			    { month: "Feb",  revenues: 11425, profit: 67, America:35, Europe:35, Asia:30},
-			    { month: "Mar",  revenues: 13534, profit: 130, America:45, Europe:25, Asia:30},
+				{ month: "Feb",  revenues: 11425, profit: 67, America:35, Europe:35, Asia:30},
+				{ month: "Mar",  revenues: 13534, profit: 130, America:45, Europe:25, Asia:30},
 				{ month: "Apr",  revenues: 12001, profit: 54, America:60, Europe:20, Asia:20},
 				{ month: "May",  revenues: 14334, profit: 140, America:40, Europe:30, Asia:30},
 				{ month: "Jun",  revenues: 12400, profit: 121, America:60, Europe:20, Asia:20},
@@ -104,10 +104,10 @@
 				});
 				var chart2 = new Chart("chart2", { fill: null, margins: {t:0, l:0, b:0, r:0} }).
 					setTheme(theme2).
-					addPlot("regions", {type: "Pie", radius: 48, stroke: "white"}).
+					addPlot("regions", {type: "Pie", radius: 112, stroke: "white"}).
 					addSeries("data", [], {plot: "regions"});
 				new Tooltip(chart1, "revenues");
-			    new Highlight(chart1, "revenues");
+				new Highlight(chart1, "revenues");
 				new PieAction(chart1, "revenues", function(index, visible){
 					// show up a PieChart with the month split by world region
 					chart2.updateSeries("data", [
@@ -127,9 +127,11 @@
 	</script>
   </head>
   <body class="claro">
-  	<div id="chart1" style="width:480px;height:240px;"></div>
-	<div id="overlay" style="position:relative;top:-230px;left:90px;visibility:hidden" onclick="setStyle('overlay', 'visibility', 'hidden')">
-		<div id="chart2" style="width:100px;height:100px"></div>
+  	<div style="width:1280px;margin-left:auto;margin-right:auto">
+  	<div id="chart1" style="width:1280px;height:800px"></div>
+	<div id="overlay" style="position:relative;top:-720px;left:90px;width:240px;visibility:hidden" onclick="setStyle('overlay', 'visibility', 'hidden')">
+		<div id="chart2" style="width:240px;height:240px"></div>
+	</div>
 	</div>
   </body>
-<html>
+</html>
