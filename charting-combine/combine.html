@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Dojo Charting Combine</title>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dijit/themes/claro/claro.css">
+	  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js"
+			  data-dojo-config="async: true"></script>
+	<script>
+		var switchClustering;
+
+		require(["dojo/_base/declare", "dojo/ready", "dojox/charting/Chart",
+				"dojo/store/Memory", "dojox/charting/StoreSeries", 
+				"dojox/charting/themes/PlotKit/blue", "dojox/charting/axis2d/Default",
+				"dojox/charting/plot2d/StackedColumns", "dojox/charting/plot2d/ClusteredColumns",
+				"dojox/charting/plot2d/Grid", "dojox/charting/action2d/Tooltip", "dojox/charting/action2d/Highlight"],
+			function(declare, ready, Chart, Memory, StoreSeries, blue, Default,
+					 StackedColumns, ClusteredColumns, Grid, Tooltip, Highlight){
+
+			var chart;
+
+			var sales = [
+				{ month: "Jan",  A: 12435, B: 5300 },
+				{ month: "Feb",  A: 11425, B: 10450 },
+				{ month: "Mar",  A: 13534, B: 8780 },
+				{ month: "Apr",  A: 12001, B: 7302 },
+				{ month: "May",  A: 14334, B: 6504 },
+				{ month: "Jun",  A: 12400, B: 15030 },
+				{ month: "Jul",  A: 12212, B: 9898 },
+				{ month: "Aug",  A: 14424, B: 5807 },
+				{ month: "Nov",  A: 14134, B: 14506 },
+				{ month: "Oct",  A: 13242, B: 5470 },
+				{ month: "Nov",  A: 16312, B: 12480 },
+				{ month: "Dec",  A: 19132, B: 8770 }
+			];
+
+			ready(function() {
+				var store = new Memory({ data: sales });
+				var clustered = true;
+				var monthLabel = function(index){
+					if(index>12 || index<1){
+						return "";
+					}
+					return sales[index-1].month;
+				};
+
+				switchClustering = function(){
+					if(clustered){
+						chart.
+							addAxis("y", { vertical: true, fixLower: "major", fixUpper: "major", includeZero: true, majorTickStep: 1000, max: 30000, title: "Revenues" }).
+							addPlot("default", {type: StackedColumns, gap: 5, maxBarSize: 35, vAxis: "y", animate: true});
+						chart.render();
+						clustered = false;
+					}else{
+						chart.
+							addAxis("y", { vertical: true, fixLower: "major", fixUpper: "major", includeZero: true, majorTickStep: 1000, max: 20000, title: "Revenues" }).
+							addPlot("default", {type: ClusteredColumns, gap: 10, maxBarSize: 35, vAxis: "y", animate: true});
+						chart.render();
+						clustered = true;
+					}
+				};
+
+			    chart = new Chart("chart").
+			    	setTheme(blue).
+			        addAxis("x", { majorTickStep: 1, minorTicks: false, labelFunc: monthLabel, minorLabels: false}).
+					addAxis("y", { vertical: true, fixLower: "major", fixUpper: "major", includeZero: true, majorTickStep: 1000, max: 20000, title: "Revenues" }).
+					addPlot("default", {type: ClusteredColumns, gap: 10, maxBarSize: 35, vAxis: "y", animate: true}).
+					addPlot("grid", { type: "Grid", vMajorLines: false, vAxis: "y"}).
+			        addSeries("data1", new StoreSeries(store, {}, function(item){
+						return item.A;
+					}), { plot: "default"}).
+					addSeries("data2", new StoreSeries(store, {}, function(item){
+						return item.B;
+					}), {plot: "default"});
+			    chart.render();
+			});
+		});
+	</script>
+  </head>
+  <body class="claro">
+  	<div style="width:800px;margin-left:auto;margin-right:auto">
+  		<div id="chart" style="width:800px;height:600px" onclick="switchClustering()"></div>
+	</div>
+  </body>
+</html>
