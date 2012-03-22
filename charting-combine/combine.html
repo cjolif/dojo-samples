@@ -8,12 +8,12 @@
 	<script>
 		var switchClustering;
 
-		require(["dojo/_base/declare", "dojo/ready", "dojox/charting/Chart",
-				"dojo/store/Memory", "dojox/charting/StoreSeries", 
+		require(["dojo/_base/declare", "dojo/ready", "dojo/dom", "dojox/charting/Chart",
+				"dojo/store/Memory", "dojox/charting/StoreSeries", "dojo/on", "dojox/gesture/tap",
 				"dojox/charting/themes/PlotKit/blue", "dojox/charting/axis2d/Default",
 				"dojox/charting/plot2d/StackedColumns", "dojox/charting/plot2d/ClusteredColumns",
 				"dojox/charting/plot2d/Grid", "dojox/charting/action2d/Tooltip", "dojox/charting/action2d/Highlight"],
-			function(declare, ready, Chart, Memory, StoreSeries, blue, Default,
+			function(declare, ready, dom, Chart, Memory, StoreSeries, on, tap, blue, Default,
 					 StackedColumns, ClusteredColumns, Grid, Tooltip, Highlight){
 
 			var chart;
@@ -72,13 +72,16 @@
 						return item.B;
 					}), {plot: "default"});
 			    chart.render();
+
+				on(dom.byId("chart"), tap.doubletap, switchClustering);
+
 			});
 		});
 	</script>
   </head>
   <body class="claro">
   	<div style="width:800px;margin-left:auto;margin-right:auto">
-  		<div id="chart" style="width:800px;height:600px" onclick="switchClustering()"></div>
+  		<div id="chart" style="width:800px;height:600px"></div>
 	</div>
   </body>
 </html>
