@@ -12,6 +12,6 @@ require([
 	"dojox/mobile/PageIndicator"
 ], function(){
 	details = function(event){
-		console.log("details: "+event.target.id);
+		console.log("details: "+((event.target.id && event.target.id.length > 0)?event.target.id:event.target.parentNode.id));
 	};
 });
