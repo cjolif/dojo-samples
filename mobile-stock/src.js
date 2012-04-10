@@ -135,7 +135,6 @@ require([
 				"<div class='c2'>"+item.price+"</div>"+
 				"<div class='c3 "+(pos?"c3a":"c3b")+"'>"+(pos?"+":"")+item.change+"%</div>";
 			stocks.addChild(li);
-			// TODO: bad arise any formatting that dojox/mobile might do
 		});
 		// at init time first stock is always selected
 		select("stock1");
