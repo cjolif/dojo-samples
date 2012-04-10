@@ -21,7 +21,6 @@ require([
 	function details(event){
 		// get the clicked id
 		var id = (event.target.id && event.target.id.length > 0)?event.target.id:event.target.parentNode.id;
-		console.log("details: "+id);
 		select(id);
 	}
 	function select(id){
@@ -41,31 +40,11 @@ require([
 				}
 			],
 			day: {
-				open: 10.1,
-				cap: 15343412,
-				max: 10.5,
-				min: 9.9,
-				max52: 93,
-				min52: 3.5,
-				vol: 3242,
-				meanvol: 3403,
-				per: 5,
-				rdt: 3
+				open: 10.1,	cap: 15343412, max: 10.5, min: 9.9,
+				max52: 93, min52: 3.5, vol: 3242,
+				meanvol: 3403, per: 5, rdt: 3
 			},
-			history: [
-				5,
-				6,
-				7,
-				8,
-				10,
-				13,
-				18,
-				24,
-				32,
-				37,
-				45,
-				51,
-			]
+			history: [ 5, 6, 7, 8, 10, 13, 18, 24, 32, 37, 45, 51 ]
 		};
 		var news = registry.byId("news");
 		// remove anything from previous selected stock
@@ -75,13 +54,12 @@ require([
 		// go over the news for my stock and add them
 		arr.forEach(data.news, function(item){
 			var li = new ListItem({
-				variableHeight: true,
 				href: item.url,
 				hrefTarget: "_blank",
 				arrowClass: "mblDomButtonBlueCircleArrow"
 			});
+			li.labelNode.innerHTML = item.title+"<div class='subtitle'>"+item.subtitle+"</div>";
 			news.addChild(li);
-			li.domNode.innerHTML = item.title+"<div class='subtitle'>"+item.subtitle+"</div>";
 		});
 		// go over the daily data and update them
 		for(var key in data.day){
@@ -146,18 +124,18 @@ require([
 		var stocks = registry.byId("stocks");
 		arr.forEach(live, function(item, i){
 			var li = new ListItem({
-				stateful: true,
 				onClick: details,
 				moveTo: "#",
 				selected: i == 0,
 				id: item.id
 			});
-			stocks.addChild(li);
 			var pos = item.change > 0;
-			li.domNode.innerHTML =
+			li.labelNode.innerHTML =
 				"<div class='c1'>"+item.title+"</div>"+
 				"<div class='c2'>"+item.price+"</div>"+
 				"<div class='c3 "+(pos?"c3a":"c3b")+"'>"+(pos?"+":"")+item.change+"%</div>";
+			stocks.addChild(li);
+			// TODO: bad arise any formatting that dojox/mobile might do
 		});
 		// at init time first stock is always selected
 		select("stock1");
