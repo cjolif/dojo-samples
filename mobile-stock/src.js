@@ -6,6 +6,7 @@ require([
 	"dojox/mobile/ListItem",
 	"dojox/mobile/parser",
 	"dojox/mobile",
+// include it only if you intend this to be runnable on IE & FF as well
 //	"dojox/mobile/compat",
 	"dojox/mobile/FixedSplitter",
 	"dojox/mobile/ScrollableView",
@@ -25,7 +26,7 @@ require([
 	}
 	function select(id){
 		// get the details (news, figures & chart) for that given id
-		// xhrGet(...) to get back data from the server, here we are faking it
+		// xhr.get(...) to get back data from the server, here we are faking it
 		var data = {
 			news: [
 				{
