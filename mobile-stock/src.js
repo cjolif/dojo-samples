@@ -30,20 +30,20 @@ require([
 		var data = {
 			news: [
 				{
-					url: "http://whateverurlwherethereisinfoonthisnews.com",
-					title: "first title",
-					subtitle: "subtitle"
+					url: "http://"+id+"news.com",
+					title: id+ " is making headlines",
+					subtitle: "learn more"
 				},
 				{
-					url: "http://whateverurlwherethereisinfoonthisnews.com",
-					title: "second title",
-					subtitle: "subtitle"
+					url: "http://"+id+"news.com",
+					title: "this year "+id+" will sell more",
+					subtitle: "really?"
 				}
 			],
 			day: {
-				open: 10.1,	cap: 15343412, max: 10.5, min: 9.9,
-				max52: 93, min52: 3.5, vol: 3242,
-				meanvol: 3403, per: 5, rdt: 3
+				open: 10.1 + Math.random(), cap: 15343412 + Math.random() * 100, max: 10.5 + Math.random(), min: 9.9 - Math.random(),
+				max52: 93 + Math.random(), min52: 3.5 - Math.random(), vol: 3242 + Math.random() * 10,
+				meanvol: 3403 + Math.random() * 10, per: 5 + Math.random(), rdt: 3 + Math.random()
 			},
 			history: [ 5, 6, 7, 8, 10, 13, 18, 24, 32, 37, 45, 51 ]
 		};
@@ -64,10 +64,14 @@ require([
 		});
 		// go over the daily data and update them
 		for(var key in data.day){
-			dom.byId(key).innerHTML = data.day[key];
+			dom.byId(key).innerHTML = data.day[key] > 100?Math.round(data.day[key]) : data.day[key].toFixed(2);
 		}
 		// go over the historical data and update the chart
-		registry.byId("chart").chart.getSeries("data").update(data.history);
+		// randomize it a bit...
+		data.history = arr.map(data.history, function(item){
+			return Math.round(item + 2*Math.random());
+		});
+		registry.byId("chart").chart.updateSeries("data", data.history).render();
 	}
 	ready(function(){
 		// fill the main view with live data
