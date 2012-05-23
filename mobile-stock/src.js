@@ -21,8 +21,11 @@ require([
 ], function(dom, arr, ready, registry, ListItem){
 	function details(event){
 		// get the clicked id
-		var id = (event.target.id && event.target.id.length > 0)?event.target.id:event.target.parentNode.id;
-		select(id);
+		var node = event.target;
+		while(node.localName != "li"){
+			node = node.parentNode;
+		}
+		select(node.id);
 	}
 	function select(id){
 		// get the details (news, figures & chart) for that given id
@@ -30,14 +33,24 @@ require([
 		var data = {
 			news: [
 				{
-					url: "http://"+id+"news.com",
+					url: "http://www.dojotoolkit.org",
 					title: id+ " is making headlines",
-					subtitle: "learn more"
+					subtitle: "Newspaper Corp"
 				},
 				{
-					url: "http://"+id+"news.com",
+					url: "http://www.dojotoolkit.org",
 					title: "this year "+id+" will sell more",
-					subtitle: "really?"
+					subtitle: "News Daily"
+				},
+				{
+					url: "http://www.dojotoolkit.org",
+					title: id+" latest news",
+					subtitle: "The World"
+				},
+				{
+					url: "http://www.dojotoolkit.org",
+					title: "The "+id+" revolution",
+					subtitle: "Freedom paper"
 				}
 			],
 			day: {
