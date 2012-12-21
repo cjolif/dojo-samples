@@ -13,17 +13,20 @@
 			// declaring the model that we will use
 			var model;
 
-		    require(["dojo/parser", "dojo/Stateful", "dojo/domReady!"],
-                    function(parser, Stateful){
+			require(["dojo/parser", "dojo/Stateful", "dijit/registry", "dojo/domReady!"],
+					function(parser, Stateful, registry){
 				// instantiate Dojo Stateful model with a single value
-                model = new Stateful({value: 10});
+				model = new Stateful({value: 10});
 				// have the model value change regularly (this is random here but would typically come from a
-				// server udpate).
+				// server update).
             	setInterval(function(){
 					model.set("value", Math.round(Math.random()*150));
 				}, 3000);
 				// instantiate the widget from the markup
-            	parser.parse();
+				parser.parse().then(function(){
+					// enable animation after first display
+					registry.byId("gauge").set("animationDuration", 200);
+				});
             });
 	    </script>
 	</head>
@@ -35,7 +38,7 @@
 		    <div data-dojo-type="dijit/layout/ContentPane" style="background-color: #fafafa;"
 				 data-dojo-props="splitter: true, region: 'center'">
 				<!-- here we bind the gauge value to the model value using at function, no further update is needed -->
-			    <div data-dojo-type="bulletgraph/BulletGraph" style="height:60px"
+			    <div data-dojo-type="bulletgraph/BulletGraph" id="gauge" style="height:60px"
 					 data-dojo-props="value: at(model, 'value'), target: 130, low: 33, medium: 120, high: 150"></div>
 	    	</div>
 	    </div>

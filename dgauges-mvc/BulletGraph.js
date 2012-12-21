@@ -9,8 +9,9 @@ define(["dojo/_base/declare", "dojox/dgauges/RectangularGauge", "dojox/dgauges/L
 		value: 50,
 		medium: 75,
 		low: 50,
+		animationDuration: 0,
 
-		constructor: function(){
+		constructor: function(params, srcNodeRef){
 			var scaler = new LinearScaler({
 				maximum: this.high
 			});
@@ -21,7 +22,10 @@ define(["dojo/_base/declare", "dojox/dgauges/RectangularGauge", "dojox/dgauges/L
 				paddingBottom: 23
 			});
 			this.addElement("scale", this._scale);
+		},
 
+		buildRendering: function(){
+			this.inherited(arguments);
 			var high = new RectangularRangeIndicator({
 				start: 0,
 				value: this.high,
@@ -67,7 +71,7 @@ define(["dojo/_base/declare", "dojox/dgauges/RectangularGauge", "dojox/dgauges/L
 				paddingTop: 10,
 				startThickness: 10,
 				endThickness: 10,
-				animationDuration: 100
+				animationDuration: this.animationDuration
 			});
 			this._scale.addIndicator("measure", measure);
 
@@ -76,7 +80,7 @@ define(["dojo/_base/declare", "dojox/dgauges/RectangularGauge", "dojox/dgauges/L
 				interactionMode: "none",
 				value: this.target
 			});
-			
+
 			target.indicatorShapeFunc = function(group){
 				return group.createLine({
 					x1: 0,
@@ -91,7 +95,7 @@ define(["dojo/_base/declare", "dojox/dgauges/RectangularGauge", "dojox/dgauges/L
 
 			this._scale.addIndicator("target", target);
 
-			this.addInvalidatingProperties(["target", "value", "low", "medium", "high"]);
+			this.addInvalidatingProperties(["target", "value", "low", "medium", "high", "animationDuration"])
 		},
 
 		refreshRendering: function(){
@@ -100,6 +104,7 @@ define(["dojo/_base/declare", "dojox/dgauges/RectangularGauge", "dojox/dgauges/L
 			this._scale.scaler.set("maximum", this.high);
 			this._scale.getIndicator("target").set("value", this.target);
 			this._scale.getIndicator("measure").set("value", this.value);
+			this._scale.getIndicator("measure").set("animationDuration", this.animationDuration);
 			this._scale.getIndicator("low").set("value", this.low);
 			this._scale.getIndicator("medium").set("value", this.medium);
 			this._scale.getIndicator("high").set("value", this.high);
