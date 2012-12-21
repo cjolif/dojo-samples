@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+    	<title>Bullet Graph</title>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/dojo/1.8.1/dijit/themes/claro/claro.css">
+    	<script type="text/javascript" src="/dojo-trunk-commit/dojo/dojo.js"
+            data-dojo-config="async: true, packages: [{
+                        name: 'bulletgraph',
+                        location: location.pathname.replace(/\/[^/]+$/, '') + '/'
+                    }]">
+    	</script>
+    	<script type="text/javascript">
+			// declaring the model that we will use
+			var model;
+
+			require(["dojo/parser", "dojo/Stateful", "dijit/registry", "dojo/domReady!"],
+					function(parser, Stateful, registry){
+				// instantiate Dojo Stateful model with a single value
+				model = new Stateful({value: 10});
+				// have the model value change regularly (this is random here but would typically come from a
+				// server update).
+            	setInterval(function(){
+					model.set("value", Math.round(Math.random()*150));
+				}, 3000);
+				// instantiate the widget from the markup
+				parser.parse().then(function(){
+					// enable animation after first display
+					registry.byId("gauge").set("animationDuration", 200);
+				});
+            });
+	    </script>
+	</head>
+	<body class="claro">
+		<!-- import at function into the markup context -->
+        <script type="dojo/require">at: "dojox/mvc/at"</script>
+	    <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters: true, liveSplitters: true"
+             style="width:90%; height: 90px" id="borderContainer">
+		    <div data-dojo-type="dijit/layout/ContentPane" style="background-color: #fafafa;"
+				 data-dojo-props="splitter: true, region: 'center'">
+				<!-- here we bind the gauge value to the model value using at function, no further update is needed -->
+			    <div data-dojo-type="bulletgraph/BulletGraph" id="gauge" style="height:60px"
+					 data-dojo-props="value: at(model, 'value'), target: 130, low: 33, medium: 120, high: 150"></div>
+	    	</div>
+	    </div>
+	</body>
+</html>
